@@ -1,4 +1,10 @@
-import { createContext, FormEvent, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  FormEvent,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import Cookies from "js-cookie";
 import { LoginModal } from "../components/LoginModal";
 
@@ -23,7 +29,7 @@ export function UserProvider({ children }: UserProviderProps) {
     setGitUsername(e.currentTarget.value);
   }
 
-  function handleSubmit(e: Event) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setGitUsername(gitUsername);
     Cookies.set("gitUsername", gitUsername);
