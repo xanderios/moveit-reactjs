@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, FormEvent, ReactNode, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { LoginModal } from "../components/LoginModal";
 
@@ -10,7 +10,7 @@ interface UserContextData {
   gitUsername: string;
   loginModalOpen: boolean;
   handleInput: (e: React.FormEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: Event) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export const UserContext = createContext({} as UserContextData);
