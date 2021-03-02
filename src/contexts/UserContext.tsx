@@ -1,10 +1,4 @@
-import {
-  createContext,
-  FormEvent,
-  ReactNode,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { LoginModal } from "../components/LoginModal";
 

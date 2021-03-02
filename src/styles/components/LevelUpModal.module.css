@@ -1,5 +1,6 @@
 .overlay {
-  background: rgba(242, 243, 245, 0.8);
+  background: rgba(242, 243, 245, 0.5);
+  backdrop-filter: blur(5px);
   position: fixed;
   top: 0%;
   right: 0%;
@@ -11,6 +12,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
+  z-index: 10;
 }
 
 .overlayActive {

@@ -1,5 +1,6 @@
 .overlay {
-  background: rgba(242, 243, 245, 1);
+  background: rgba(242, 243, 245, 0.5);
+  backdrop-filter: blur(5px);
   position: fixed;
   top: 0%;
   right: 0%;
@@ -20,14 +21,14 @@
 }
 
 .container {
-  background: var(--white);
+  position: relative;
   width: 100%;
   max-width: 500px;
   padding: 2rem 3rem;
   border-radius: 5px;
+  background: var(--white);
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
   text-align: center;
-  position: relative;
 }
 
 .container header {
@@ -67,4 +68,13 @@
 
 .container form button:hover {
   background-color: var(--blue-dark);
+}
+
+.container .closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0;
+  border: none;
+  background: none;
 }

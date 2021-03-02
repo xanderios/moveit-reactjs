@@ -6,6 +6,7 @@ import { CompletedChallenges } from "../components/CompletedChallenges";
 import { Countdown } from "../components/Countdown";
 import { ExperienceBar } from "../components/ExperienceBar";
 import { Profile } from "../components/Profile";
+import { SettingsModal } from "../components/SettingsModal";
 
 import { ChallengesProvider } from "../contexts/ChallengeContext";
 import { CountdownProvider } from "../contexts/CountdownContext";
@@ -41,6 +42,7 @@ export default function Home(props: HomeProps) {
               </UserProvider>
               <CompletedChallenges />
               <Countdown />
+              <SettingsModal />
             </div>
             <div>
               <ChallengeBox />
