@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
 } from "react";
+import Cookies from "js-cookie";
 import { ChallengesContext } from "./ChallengeContext";
 
 interface CountdownContextData {
@@ -35,7 +36,9 @@ export const CountdownContext = createContext({} as CountdownContextData);
 export function CountdownProvider({ children }: CountdownProviderProps) {
   const { startNewChallenge } = useContext(ChallengesContext);
 
-  const [time, setTime] = useState(String(25 * 60));
+  const [time, setTime] = useState(
+    Cookies.get("timeSetting") || String(25 * 60)
+  );
   const [currentTime, setCurrentTime] = useState(Number(time));
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -93,6 +96,7 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
     e.preventDefault();
     setConfigModalOpen(false);
     setCurrentTime(Number(time));
+    Cookies.set("timeSetting", time);
   }
 
   return (
