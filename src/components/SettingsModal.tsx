@@ -16,7 +16,7 @@ export function SettingsModal() {
       className={`${styles.overlay} ${configModalOpen && styles.overlayActive}`}
     >
       <div className={styles.container}>
-        <header>Atualizar período</header>
+        <header>Atualizar temporizador</header>
         <form onSubmit={handleSubmit}>
           <input type="text" value={time} onChange={handleInput} />
           <button type="submit">Salvar</button>
