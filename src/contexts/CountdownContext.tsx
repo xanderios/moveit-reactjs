@@ -9,7 +9,8 @@ import Cookies from "js-cookie";
 import { ChallengesContext } from "./ChallengeContext";
 
 interface CountdownContextData {
-  time: string;
+  timeSetting: number;
+  timeFormat: string;
   minutes: number;
   seconds: number;
   hasStarted: boolean;
@@ -20,8 +21,11 @@ interface CountdownContextData {
   resetCountdown: () => void;
   openConfigModal: () => void;
   closeConfigModal: () => void;
-  handleInput: (e: React.FormEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (
+    e: React.FormEvent<HTMLFormElement>,
+    time: number,
+    format: string
+  ) => void;
   toggleCountdown: () => void;
 }
 
@@ -36,10 +40,15 @@ export const CountdownContext = createContext({} as CountdownContextData);
 export function CountdownProvider({ children }: CountdownProviderProps) {
   const { startNewChallenge } = useContext(ChallengesContext);
 
-  const [time, setTime] = useState(
-    Cookies.get("timeSetting") || String(25 * 60)
+  const [timeFormat, setTimeFormat] = useState(
+    Cookies.get("timeFormat") || "minutes"
   );
-  const [currentTime, setCurrentTime] = useState(Number(time));
+  const [timeSetting, setTimeSetting] = useState(
+    Number(Cookies.get("timeSetting")) || 25
+  );
+  const [currentTime, setCurrentTime] = useState(
+    timeFormat === "minutes" ? timeSetting * 60 : timeSetting
+  );
   const [isActive, setIsActive] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [hasFinished, setHasFinished] = useState(false);
@@ -59,7 +68,8 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
     clearTimeout(countdownTimeout);
     setHasStarted(false);
     setHasFinished(false);
-    setCurrentTime(Number(time));
+    if (timeFormat === "minutes") setCurrentTime(timeSetting * 60);
+    else setCurrentTime(timeSetting);
   }
 
   useEffect(() => {
@@ -88,23 +98,32 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
     clearTimeout(countdownTimeout);
   }
 
-  function handleInput(e: React.FormEvent<HTMLInputElement>) {
-    setTime(e.currentTarget.value);
+  function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>,
+    time: number,
+    format: string
+  ) {
+    e.preventDefault();
+    setTimeSetting(time);
+    setTimeFormat(format);
+    setConfigModalOpen(false);
+    Cookies.set("timeSetting", String(time));
+    Cookies.set("timeFormat", format);
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setConfigModalOpen(false);
-    setCurrentTime(Number(time));
-    Cookies.set("timeSetting", time);
-  }
+  useEffect(() => {
+    if (timeFormat === "minutes") setCurrentTime(timeSetting * 60);
+    else setCurrentTime(timeSetting);
+    resetCountdown();
+  }, [timeSetting, timeFormat]);
 
   return (
     <CountdownContext.Provider
       value={{
-        time,
+        timeSetting,
         minutes,
         seconds,
+        timeFormat,
         hasStarted,
         hasFinished,
         isActive,
@@ -113,7 +132,6 @@ export function CountdownProvider({ children }: CountdownProviderProps) {
         resetCountdown,
         openConfigModal,
         closeConfigModal,
-        handleInput,
         handleSubmit,
         toggleCountdown,
       }}
